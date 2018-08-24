@@ -5,7 +5,13 @@ In order to help you build the final solution, this challenge will have differen
 
 For this challenge, we will be using [Terraform](https://www.terraform.io/docs/index.html) **0.11.7**.
 
-# I heard that Terraform 0.12 is coming out soon. Will we use it?
+# FAQ
+
+## I did not attend the Dojo. How can I take this challenge?
+
+During the event, Slalom provides a base infrastructure on top of which attendees can build their solutions. However, if you would like to take the challenge yourself, you will need to provision the same base infrastructure. Please, follow the tutorial in the `run-your-own-dojo` folder to provision your own base infrastructure before proceeding.
+
+## I heard that Terraform 0.12 is coming out soon. Will we use it?
 
 If you have been working with Terraform for a while, you might have heard that Hashicorp is planning a big release with Terraform 0.12. We will not use 0.12 in this Dojo for a couple of reasons:
 
