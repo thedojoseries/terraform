@@ -9,7 +9,7 @@ For this challenge, we will be using [Terraform](https://www.terraform.io/docs/i
 
 ## I did not attend the Dojo. How can I take this challenge?
 
-During the event, Slalom provides a base infrastructure on top of which attendees can build their solutions. However, if you would like to take the challenge yourself, you will need to provision the same base infrastructure. Please, follow the tutorial in the `run-your-own-dojo` folder to provision your own base infrastructure before proceeding.
+To take this challenge, you will have to provision the same base infrastructure Slalom provided the attendees during the event. Follow the tutorial in the `run-your-own-dojo` folder to provision your own base infrastructure before proceeding.
 
 ## I heard that Terraform 0.12 is coming out soon. Will we use it?
 
