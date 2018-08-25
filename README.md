@@ -21,64 +21,7 @@ If you have been working with Terraform for a while, you might have heard that H
 
 # WSL + Docker for Windows
 
-If you are running Docker for Windows you'll need to perform the following steps to proceed with running this challenge in your WSL bash
-
-1. Go to your Docker settings and expose the daemon
-![Docker For Windows](./images/docker-for-windows-expose-daemon-without-tls.jpg)
-
-2. Run the following commands
-
-```
-# Environment variables you need to set so you don't have to edit the script below.
-export DOCKER_CHANNEL=edge
-export DOCKER_COMPOSE_VERSION=1.21.0
- 
-# Update the apt package index.
-sudo apt-get update
- 
-# Install packages to allow apt to use a repository over HTTPS.
-sudo apt-get install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    software-properties-common
- 
-# Add Docker's official GPG key.
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
- 
-# Verify the fingerprint.
-sudo apt-key fingerprint 0EBFCD88
- 
-# Pick the release channel.
-sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   ${DOCKER_CHANNEL}"
- 
-# Update the apt package index.
-sudo apt-get update
- 
-# Install the latest version of Docker CE.
-sudo apt-get install -y docker-ce
- 
-# Allow your user to access the Docker CLI without needing root.
-sudo usermod -aG docker $USER
- 
-# Install Docker Compose.
-sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose &&
-sudo chmod +x /usr/local/bin/docker-compose
-```
-
-3. Add the following lines to your ~/.bashrc
-
-```
-export DOCKER_HOST=tcp://0.0.0.0:2375
-```
-
-At this point, you will want to close all WSL instances and reopen them, and now you're ready to run the exercise!
-
-[Click here for more details](https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly).
-
+If you have the Windows Subsystem for Linux (Bash for Windows) installed and would like to use it with Docker, [follow these instructions](https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly).
 
 # Getting started
 
@@ -93,6 +36,8 @@ docker run --rm -it -e "URL1=<URL1>" -e "URL2=<URL2>" -v <ANY-LOCAL-DIRECTORY-FU
 ```
 
 The command above will spin up a container using the *slalomdojo/env* image and the directory you created locally in your computer will be mounted into the container at the path **/code**, which means you can use your favourite Text Editor/IDE to code locally (all changes will be propagated to the container automatically). Finally, you will notice that you need to specify two environment variables: **URL1** and **URL2**. You will be given further instructions at the beginning of the challenge.
+
+**PS: If you are trying to run your own Dojo, please follow the instructions in the `run-your-own-dojo` folder before proceeding to Stage 0.**
 
 # Stage 0
 
