@@ -119,4 +119,69 @@ Unpacking objects: 100% (10/10), done.
 Checking connectivity... done.
 ```
 
+Before we can test the API, we need to install Node.js 8:
+
+```
+$ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -; sudo apt-get install -y nodejs
 [...]
+
+$ node --version
+v8.11.4
+
+$ npm --version
+5.6.0
+```
+
+If the instructions above did not work, follow the official instructions [here](https://github.com/nodesource/distributions).
+
+Now let's just install all the dependencies the API needs:
+
+```
+$ cd terraform-challenge/run-your-own-dojo/apis/api-1
+$ npm install
+```
+
+Finally, assuming you are still inside the api-1 folder, run:
+
+```
+$ node index.js &
+```
+
+You've just spun up the API on the background. Hit enter if necessary to get the prompt back and run:
+
+```
+$ curl localhost:3000/health
+Ok
+```
+
+If you got an error like `Error: Cannot find module 'express'`, it means you haven't run `npm install`.
+
+Now that we confirmed the API works, we need a way to start it automatically when a new instance comes up. To do that, let's first install [Forever](https://github.com/foreverjs/forever):
+
+```
+$ sudo npm install -g forever
+```
+
+To automatically start the API, let's not get too fancy for this exercise. A simple cronjob will be enough. Run:
+
+```
+$ crontab -l > cron
+
+$ echo "@reboot forever start --watch --watchDirectory /home/ubuntu/terraform-challenge/run-your-own-dojo/apis/api-1/config/ /home/ubuntu/terraform-challenge/run-your-own-dojo/apis/api-1/index.js" >> cron
+
+$ crontab cron
+```
+
+Confirm that your cronjob was installed successfully by running `crontab -l`.
+
+If you are wondering what all this means, let me quickly explain: `@reboot` means the command should be run whenever the server reboots/starts up. `forever start` starts the API. `--watch --watchDirectory` watches the config directory and if any file changes, the API is restarted (you will need this functionality on Stage 5).
+
+Let's now build the AMI. Go back to the EC2 Console, locate your instance, select it, then click on **Actions, Image, Create Image**:
+
+![EC2](./images/run-your-own-dojo-008.png)
+
+Give your AMI a name and description and hit **Create Image**.
+
+Your base infrastructure on AWS is ready! Let's do the same on GCP now.
+
+[To be continued...]
