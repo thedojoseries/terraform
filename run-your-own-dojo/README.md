@@ -105,7 +105,7 @@ See "man sudo_root" for details.
 ubuntu@ip-xxx-xx-xx-xxx:~$
 ```
 
-### Configuring the system
+### <a name="systemconfig"></a>Configuring the system
 
 Let's configure this server so we can later generate an AMI. First, clone this repository in Ubuntu's home directory:
 
@@ -176,6 +176,8 @@ Confirm that your cronjob was installed successfully by running `crontab -l`.
 
 If you are wondering what all this means, let me quickly explain: `@reboot` means the command should be run whenever the server reboots/starts up. `forever start` starts the API. `--watch --watchDirectory` watches the config directory and if any file changes, the API is restarted (you will need this functionality on Stage 5).
 
+### Generating the AMI
+
 Let's now build the AMI. Go back to the EC2 Console, locate your instance, select it, then click on **Actions, Image, Create Image**:
 
 ![EC2](./images/run-your-own-dojo-008.png)
@@ -183,5 +185,70 @@ Let's now build the AMI. Go back to the EC2 Console, locate your instance, selec
 Give your AMI a name and description and hit **Create Image**.
 
 Your base infrastructure on AWS is ready! Let's do the same on GCP now.
+
+## GCP
+
+Go to the [Google Cloud website](https://cloud.google.com/). If you have a Google Account, you can go to the Google Cloud Console and set up your account there. Otherwise, you'll have to first create a [Google Account](https://accounts.google.com/signup/v2/webcreateaccount?hl=en&flowName=GlifWebSignIn&flowEntry=SignUp). 
+GCP also has some sort of free tier. They give you $300 to test their services for 12 months, which is more than enough if you're just getting started with their platform. 
+This tutorial will not show you how to create a Google Cloud account as it's very straightforward. Before proceeding, set up an account and [Billing](https://cloud.google.com/billing/docs/how-to/manage-billing-account).
+
+### Creating a project
+
+First step will be to create a project. Take a look at the top bar:
+
+
+![EC2](./images/run-your-own-dojo-009.png)
+
+Your top bar will probably have a project already select (e.g. 'My First Project' or something similar). Click on the dropdown icon and this window will pop up:
+
+![EC2](./images/run-your-own-dojo-010.png)
+
+Click on the folder with a gear icon (left-hand side of **New Project**). Create a project choosing any name you'd like. In GCP, project names do not need to be unique. However, **IDs must be unique**. Project name and project IDs can be different, but I strongly suggest you use the same name for both.
+
+![EC2](./images/run-your-own-dojo-011.png)
+
+Once the project is created and you select it, you'll see its name at the top bar:
+
+![EC2](./images/run-your-own-dojo-012.png)
+
+### Enable Billing
+
+In GCP, every project needs to be associated with a Billing account. To make sure your project is associated with a Billing account, click on the menu (three horizontal bars at the top-left corner) and then click on Billing. If Billing is enabled, you'll see something like this:
+
+![EC2](./images/run-your-own-dojo-012-1.png)
+
+If Billing is not enabled, the page will ask you to enable Billing for the project.
+
+### Creating the Instance
+
+Now let's launch an instance and perform the same steps we did for AWS (install Node.js, pull the API code, set up a cron job and generate an image). Click on the menu again and then on **Compute Engine** (Compute Engine is GCP's EC2 service). In GCP, you need to enable APIs before you can start interacting with them. That's why if this is the first time you're interacting with Compute Engine on this project, you'll see a message saying that "Compute Engine is getting ready."
+
+![EC2](./images/run-your-own-dojo-014.png)
+
+Wait a few minutes. Once the API is ready, click on **Create**. Now, use the following info to create the instance:
+
+![EC2](./images/run-your-own-dojo-016.png)
+
+**Use Ubuntu 16.04 LTS for the boot disk.** Then, hit **Create**. 
+
+Wait until the instance is ready (there will be a green check mark on the left-hand side of the instance name):
+
+![EC2](./images/run-your-own-dojo-017.png)
+
+Click on **SSH** (underneath *Connect*). That will open a new window with a terminal (the [Google Cloud Shell](https://cloud.google.com/shell/docs/)). 
+
+![EC2](./images/run-your-own-dojo-018.png)
+
+[Follow the steps we did for AWS to configure the system](#systemconfig). However, note the following:
+
+* You will have to set up API 2 instead of API 1.
+* The API 2 listens on port 5000 instead of 3000.
+* There's no config folder for API 2, so forever doesn't have to watch any directory. Use the following command for the cron job:
+  ```
+  @reboot forever start $HOME/terraform-challenge/run-your-own-dojo/apis/api-2/index.js
+  ```
+  **Pay attention to the home directory path (it will be different than the one on EC2 instances)**
+
+### Generating an Image
 
 [To be continued...]
