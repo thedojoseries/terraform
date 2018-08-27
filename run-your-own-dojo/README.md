@@ -176,9 +176,18 @@ Confirm that your cronjob was installed successfully by running `crontab -l`.
 
 If you are wondering what all this means, let me quickly explain: `@reboot` means the command should be run whenever the server reboots/starts up. `forever start` starts the API. `--watch --watchDirectory` watches the config directory and if any file changes, the API is restarted (you will need this functionality on Stage 5).
 
+### Testing 
+
+Before we generate the AMI, we need to be sure that the API is indeed starting up when the instance starts up. In order to verify that, perform the following steps:
+
+  1) Stop the instance
+  2) Start it again
+  3) SSH into the instance
+  4) Curl API 1 and see if it's running
+
 ### Generating the AMI
 
-Let's now build the AMI. Go back to the EC2 Console, locate your instance, select it, then click on **Actions, Image, Create Image**:
+Assuming the testing went well, let's now build the AMI. Go back to the EC2 Console, locate your instance, select it, then click on **Actions, Image, Create Image**:
 
 ![EC2](./images/run-your-own-dojo-008.png)
 
@@ -249,6 +258,26 @@ Click on **SSH** (underneath *Connect*). That will open a new window with a term
   ```
   **Pay attention to the home directory path (it will be different than the one on EC2 instances)**
 
+### Testing 
+
+Perform the same steps as you did for the EC2 instance to make sure the API starts when the instance starts: stop the instance, start it again, ssh into the instance and curl the API. If it works, you're ready to generate an image. If it doesn't, create an issue explaining what went wrong and we'll do our best to help you.
+
 ### Generating an Image
 
-[To be continued...]
+Before generating an Image, **stop your instance**. Now, on the left panel, click on **Images**:
+
+![EC2](./images/run-your-own-dojo-019.png)
+
+Click on **Create Image**, give it a name, select **Disk** as source, select your instance in the **Source disk** field and create the image:
+
+![EC2](./images/run-your-own-dojo-020.png)
+
+After the image is created, you'll see it in the list of images:
+
+![EC2](./images/run-your-own-dojo-021.png)
+
+You're now ready to take the challenge! 
+
+# What do I do if an run into an issue with the base infrastructure?
+
+Please submit a Pull Request if there's a mistake in the tutorial or create an issue explaining what kind of error you're getting from your base infrastructure.
