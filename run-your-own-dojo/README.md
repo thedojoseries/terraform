@@ -1,5 +1,3 @@
-### [This tutorial is under development. Thank you for your patience]
-
 # Introduction
 
 This tutorial will show you how to set up the same infrastructure (called from now on *base infrastructure*) Slalom provided to the attendees during the event.
